@@ -211,7 +211,7 @@ if (isset($_POST['subirContra'])) {
 if (isset($_POST['subirFoto'])) {
 
 
- 
+
 
     $target_dir = "fotos/";
     $target_file = $target_dir . basename($_FILES["fileFoto"]["name"]);
@@ -278,6 +278,9 @@ $propiedad = $respuesta->registros[0];
 
 
         <!-- aqui va el contenido de la página -->
+
+
+        
         <div>
             <div class="main-card mb-3 card">
                 <div class="card-body">
@@ -290,8 +293,7 @@ $propiedad = $respuesta->registros[0];
                             <?php } ?>
                             <form action="index.php?p=consultaPropiedad" method="post" enctype="multipart/form-data">
                                 <div id="divFotoProp" class="custom-file mt-2 mb-2">
-                                    <input type="file" style="opacity:0;"  accept="image/x-png,image/gif,image/jpeg"
-                                     name="fileFoto" id="fileFoto" lang="es">
+                                    <input type="file" style="opacity:0;" accept="image/x-png,image/gif,image/jpeg" name="fileFoto" id="fileFoto" lang="es">
                                     <label class="custom-file-label" for="fileFoto">Sel. Foto</label>
                                 </div>
                                 <input type="hidden" name="idPropiedadFoto" id="idPropiedadFoto" value="<?php echo $idPropiedad; ?>">
@@ -363,12 +365,12 @@ $propiedad = $respuesta->registros[0];
 
                             <div>
                                 <a class="btn btn-warning mb-2 mr-2" href="index.php?p=crearContrato&idPropiedad=<?php echo $idPropiedad ?>">Nuevo Contrato</a>
-                                
+
                                 <?php if ($archivo != "") { ?>
                                     <a target="_blank" href="archivos/<?php echo $archivo ?>"> <img src="imagenes/contrato.png" height="40px"></a>
                                 <?php }
                                 if ($vigente) { ?>
-                                
+
                                     <a href="imprimirContrato.php?idContrato=<?php echo $idContrato; ?>" target="_blank"><button type="button" title="Imprimir Contrato" class="mb-2 mr-2 btn-icon btn-icon-only btn btn-dark"><i class="pe-7s-print btn-icon-wrapper"> </i></button></a>
                                 <?php } ?>
 
@@ -380,9 +382,9 @@ $propiedad = $respuesta->registros[0];
                             ?>
 
 
-                                <button id="btnModificarContrato" class="btn btn-secondary mb-2 mr-2">Modificar Datos Contrato</button>
-                               
-                             
+                                <a href="index.php?p=mostrarContrato&idPropiedad=<?php echo $idPropiedad; ?>&idContrato=<?php echo $idContrato; ?>" class="btn btn-secondary mb-2 mr-2">Modificar Datos Contrato</a>
+
+
                                 <form action="index.php?p=consultaPropiedad" method="post" enctype="multipart/form-data">
                                     <div id="divContrato" class="custom-file">
                                         <input type="file" style="opacity:0;" accept="application/pdf" name="fileToUpload" id="fileToUpload" lang="es">
@@ -480,7 +482,8 @@ $propiedad = $respuesta->registros[0];
                                                         <a href="#" class="btn btn-danger" data-role="xpagoRenta" data-id="<?php echo $reg['idRentaContrato'] ?>">Cancelar</a>
                                                         <img src="./imagenes/correcto.png" height="20px">
                                                     <?php
-                                                    } ?></td>
+                                                    } ?>
+                                                </td>
 
                                             </tr>
                                     <?php }
@@ -526,7 +529,8 @@ $propiedad = $respuesta->registros[0];
                                                 <td><?php echo strtoupper($reg['idContrato']) ?></td>
                                                 <td><?php if ($reg['tipo'] == "E") { ?>
                                                         <img src="imagenes/minus.png" height="25px"><?php } else { ?>
-                                                        <img src="imagenes/plus.png" height="25px"><?php } ?></td>
+                                                        <img src="imagenes/plus.png" height="25px"><?php } ?>
+                                                </td>
                                                 <td><?php echo strtoupper($reg['monto']) ?></td>
 
                                                 <td><?php echo strtoupper($reg['fechaPago']) ?></td>
@@ -546,7 +550,8 @@ $propiedad = $respuesta->registros[0];
                                                         <?php }
                                                     } else { ?>
                                                         <a href="#" data-role="mostrarFoto" data-id="<?php echo $reg['comprobante'] ?>"> <img src="fotos/<?php echo $reg['comprobante']; ?>" height="30px"> </a>
-                                                    <?php } ?></td>
+                                                    <?php } ?>
+                                                </td>
                                                 <td> <a href="#" class="btn btn-dark" data-role="eliminarPago" data-id="<?php echo $reg['idPago'] ?>">Eliminar</a></td>
                                             </tr>
                                     <?php }

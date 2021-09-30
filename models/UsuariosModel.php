@@ -58,6 +58,11 @@ class UsuariosModel
                     "factura" => $factura,
                     "fisica" => $fisica,
                     "activo" => $activo,
+                    "banco" => $banco,
+                    "cuenta" => $cuenta,
+                    "clabe" => $clabe,
+
+                    
 
                 );
 
@@ -235,7 +240,8 @@ class UsuariosModel
 
 
 
-    function agregarUsuario($usuario, $nombre, $apellidos, $correo, $telefono, $password, $rfc, $idPerfil, $tipoPersona, $factura)
+    function agregarUsuario($usuario, $nombre, $apellidos, $correo, $telefono, $password, 
+    $rfc, $idPerfil, $tipoPersona, $factura,$banco,$cuenta,$clabe)
     {
 
         $respuesta = new RespuestaBD();
@@ -250,7 +256,11 @@ class UsuariosModel
                    usuarios
                 SET usuario=:usuario,rfc=:rfc,idPerfil=:idPerfil,
                 nombre=:nombre,apellidos=:apellidos,fisica=:fisica,
+                banco=:banco,cuenta=:cuenta,clabe=:clabe,
                 correo=:correo,telefono=:telefono, password=:password,activo=1,factura=:factura";
+
+
+
 
             // prepare query
             $stmt = $this->conn->prepare($query);
@@ -263,6 +273,9 @@ class UsuariosModel
             $telefono = htmlspecialchars(strip_tags($telefono));
             $rfc = htmlspecialchars(strip_tags($rfc));
             $idPerfil = htmlspecialchars(strip_tags($idPerfil));
+            $banco = htmlspecialchars(strip_tags($banco));
+            $cuenta = htmlspecialchars(strip_tags($cuenta));
+            $clabe = htmlspecialchars(strip_tags($clabe));
             // bind values
             $stmt->bindParam(":usuario", $usuario);
             $stmt->bindParam(":nombre", $nombre);
@@ -275,7 +288,13 @@ class UsuariosModel
             $stmt->bindParam(":factura", $factura);
             $stmt->bindParam(":fisica", $tipoPersona);
 
+            $stmt->bindParam(":banco", $banco);
+            $stmt->bindParam(":cuenta", $cuenta);
+            $stmt->bindParam(":clabe", $clabe);
 
+
+
+            
 
 
             // execute query
@@ -295,7 +314,8 @@ class UsuariosModel
     }
 
 
-    function actualizarUsuario($nombre, $apellidos, $correo, $telefono, $idUsuario, $rfc, $idPerfil, $factura)
+    function actualizarUsuario($nombre, $apellidos, $correo, $telefono, $idUsuario, $rfc,
+     $idPerfil, $factura,$banco,$cuenta,$clabe)
     {
 
         $respuesta = new RespuestaBD();
@@ -310,7 +330,11 @@ class UsuariosModel
                     usuarios
                 SET
                 nombre=:nombre,apellidos=:apellidos,idPerfil=:idPerfil,rfc=:rfc,
+                banco=:banco,cuenta=:cuenta,clabe=:clabe,
                 correo=:correo,telefono=:telefono,factura=:factura where idUsuario=:idUsuario";
+
+
+
 
         // prepare query
         $stmt = $this->conn->prepare($query);
@@ -322,9 +346,21 @@ class UsuariosModel
         $telefono = htmlspecialchars(strip_tags($telefono));
         $rfc = htmlspecialchars(strip_tags($rfc));
 
+        $banco = htmlspecialchars(strip_tags($banco));
+        $cuenta = htmlspecialchars(strip_tags($cuenta));
+        $clabe = htmlspecialchars(strip_tags($clabe));
+
+
+
+        
+
 
 
         // bind values
+        $stmt->bindParam(":banco", $banco);
+        $stmt->bindParam(":cuenta", $cuenta);
+        $stmt->bindParam(":clabe", $clabe);
+
         $stmt->bindParam(":nombre", $nombre);
         $stmt->bindParam(":apellidos", $apellidos);
         $stmt->bindParam(":correo", $correo);

@@ -11,6 +11,10 @@ $apellidosInqui = $_POST['apellidosInqui'];
 $rfcInqui = $_POST['rfcInqui'];
 $telefonoInqui = $_POST['telefonoInqui'];
 
+$banco = $_POST['banco'];
+$cuenta = $_POST['cuenta'];
+$clabe = $_POST['clabe'];
+
 
 
 $respuesta = $controller->agregarUsuario(
@@ -23,6 +27,6 @@ $respuesta = $controller->agregarUsuario(
   $rfcInqui,
   5,
   1,
-  0);
+  0,$banco,$cuenta,$clabe);
 
 echo json_encode($respuesta);

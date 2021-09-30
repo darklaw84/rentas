@@ -86,11 +86,14 @@ if (isset($_GET['p'])) {
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./assets/scripts/main.87c0748b313a1dda75f5.js"></script>
+    <script src="https://cdn.tiny.cloud/1/fr0y1fvm30dkoefvw13l4lz9r1imnesldqfbt3g66bm1ug59/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
     <script src="./js/dataTables.js"></script>
 
-    <script src="./js/usuarios.js"></script>
+    <script src="./js/usuarios_1.js"></script>
     <script src="./js/perfiles.js"></script>
     <script src="./js/propiedades_1.js"></script>
+    <script src="./js/contratos.js"></script>
 
 
 </head>
@@ -357,6 +360,8 @@ if (isset($_GET['p'])) {
                 include_once("rentasInquilino.php");
             } else if ($p == 'pagos') {
                 include_once("pagos.php");
+            } else if ($p == 'mostrarContrato') {
+                include_once("mostrarContrato.php");
             }
 
 

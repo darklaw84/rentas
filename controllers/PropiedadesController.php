@@ -23,6 +23,16 @@ class PropiedadesController
         return $respuesta;
     }
 
+    function obtenerContratosBase($activo, $idTipo)
+    {
+        $database = new Database();
+        $db = $database->getConnection();
+        $clase = new PropiedadesModel($db);
+        $respuesta = $clase->obtenerContratosBase($activo, $idTipo);
+
+        return $respuesta;
+    }
+
 
     function  obtenerContrato($idContrato)
     {
@@ -143,7 +153,7 @@ class PropiedadesController
     }
 
 
-    
+
 
     function   obtenerRecibo($idRecibo)
     {
@@ -171,9 +181,19 @@ class PropiedadesController
     {
         return "Recibo de Pago adjunto";
     }
-    
-    
 
+
+
+
+    function   actualizarTextoContrato($idContrato, $texto)
+    {
+        $database = new Database();
+        $db = $database->getConnection();
+        $clase = new PropiedadesModel($db);
+        $respuesta = $clase->actualizarTextoContrato($idContrato, $texto);
+
+        return $respuesta;
+    }
 
     function   agregarRecibo($idRentaContrato)
     {
@@ -189,7 +209,7 @@ class PropiedadesController
 
     function actualizarContrato(
         $aval,
-       $numEscrituraArrendatario,
+        $numEscrituraArrendatario,
         $fechaEscrituraArrendatario,
         $licenciadoArrendatario,
         $notariaArrendatario,
@@ -198,26 +218,25 @@ class PropiedadesController
         $domicilioInmueble,
         $domicilioAval,
         $idContrato
-    )
-    {
-    $database = new Database();
-    $db = $database->getConnection();
-    $clase = new PropiedadesModel($db);
-    $respuesta = $clase->actualizarContrato(
-        $aval,
-       $numEscrituraArrendatario,
-        $fechaEscrituraArrendatario,
-        $licenciadoArrendatario,
-        $notariaArrendatario,
-        $folioMercantilArrendatario,
-        $rfcaval,
-        $domicilioInmueble,
-        $domicilioAval,
-        $idContrato
-    );
+    ) {
+        $database = new Database();
+        $db = $database->getConnection();
+        $clase = new PropiedadesModel($db);
+        $respuesta = $clase->actualizarContrato(
+            $aval,
+            $numEscrituraArrendatario,
+            $fechaEscrituraArrendatario,
+            $licenciadoArrendatario,
+            $notariaArrendatario,
+            $folioMercantilArrendatario,
+            $rfcaval,
+            $domicilioInmueble,
+            $domicilioAval,
+            $idContrato
+        );
 
-    return $respuesta;
-}
+        return $respuesta;
+    }
 
 
 
@@ -226,51 +245,47 @@ class PropiedadesController
 
 
     function  agregarContrato(
-        $idPropietario,
-        $idPropiedad,
-        $fechaIni,
+        $idArrendatario,
+        $domicilioArrendador,
         $fechaFin,
-        $idInquilino,
-        $renta,
-        $mantenimiento,
+        $fechaIni,
         $diaPago,
-        $aval,
-        $domicilioArrrendador,
-        $numEscrituraArrendatario,
-        $fechaEscrituraArrendatario,
-        $licenciadoArrendatario,
-        $notariaArrendatario,
-        $folioMercantilArrendatario,
-        $domicilioArrendatario,
-        $rfcaval,
-        $domicilioInmueble,
+        $renta,
+        $interesmoratorio,
+        $incrementoanual,
+        $deposito,
+        $usolocalidad,
+        $idInquilino,
+        $dominquilino,
+        $nombreaval,
+        $domicilioaval,
+        $domicilioInmuebleAval,
         $tipoContrato,
-        $domicilioAval
+        $personas,
+        $idPropiedad
     ) {
         $database = new Database();
         $db = $database->getConnection();
         $clase = new PropiedadesModel($db);
         $respuesta = $clase->agregarContrato(
-            $idPropietario,
-            $idPropiedad,
-            $fechaIni,
+            $idArrendatario,
+            $domicilioArrendador,
             $fechaFin,
-            $idInquilino,
-            $renta,
-            $mantenimiento,
+            $fechaIni,
             $diaPago,
-            $aval,
-            $domicilioArrrendador,
-            $numEscrituraArrendatario,
-            $fechaEscrituraArrendatario,
-            $licenciadoArrendatario,
-            $notariaArrendatario,
-            $folioMercantilArrendatario,
-            $domicilioArrendatario,
-            $rfcaval,
-            $domicilioInmueble,
+            $renta,
+            $interesmoratorio,
+            $incrementoanual,
+            $deposito,
+            $usolocalidad,
+            $idInquilino,
+            $dominquilino,
+            $nombreaval,
+            $domicilioaval,
+            $domicilioInmuebleAval,
             $tipoContrato,
-            $domicilioAval
+            $personas,
+            $idPropiedad
         );
 
         return $respuesta;
@@ -429,12 +444,12 @@ class PropiedadesController
     }
 
 
-    function recibirPagoRenta($idRentaContrato, $usuario,$idMetodoPago)
+    function recibirPagoRenta($idRentaContrato, $usuario, $idMetodoPago)
     {
         $database = new Database();
         $db = $database->getConnection();
         $clase = new PropiedadesModel($db);
-        $respuesta = $clase->recibirPagoRenta($idRentaContrato, $usuario,$idMetodoPago);
+        $respuesta = $clase->recibirPagoRenta($idRentaContrato, $usuario, $idMetodoPago);
         return $respuesta;
     }
 

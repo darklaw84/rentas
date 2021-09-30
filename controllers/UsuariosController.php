@@ -35,22 +35,26 @@ class UsuariosController
     }
    
 
-    function agregarUsuario($usuario,$nombre, $apellidos, $correo, $telefono, $password,$rfc,$idPerfil,$tipoPersona,$factura)
+    function agregarUsuario($usuario,$nombre, $apellidos, $correo, $telefono, $password
+    ,$rfc,$idPerfil,$tipoPersona,$factura,$banco,$cuenta,$clabe)
     {
         $database = new Database();
         $db = $database->getConnection();
         $clase = new UsuariosModel($db);
-        $respuesta = $clase->agregarUsuario($usuario,$nombre, $apellidos, $correo, $telefono, $password,$rfc,$idPerfil,$tipoPersona,$factura);
+        $respuesta = $clase->agregarUsuario($usuario,$nombre, $apellidos, $correo, $telefono,
+         $password,$rfc,$idPerfil,$tipoPersona,$factura,$banco,$cuenta,$clabe);
 
         return $respuesta;
     }
 
-    function actualizarUsuario($nombre, $apellidos, $correo, $telefono, $idUsuario,$rfc,$idPerfil,$factura)
+    function actualizarUsuario($nombre, $apellidos, $correo, $telefono,
+     $idUsuario,$rfc,$idPerfil,$factura,$banco,$cuenta,$clabe)
     {
         $database = new Database();
         $db = $database->getConnection();
         $clase = new UsuariosModel($db);
-        $respuesta = $clase->actualizarUsuario($nombre, $apellidos, $correo, $telefono, $idUsuario,$rfc,$idPerfil,$factura);
+        $respuesta = $clase->actualizarUsuario($nombre, $apellidos, $correo, $telefono,
+         $idUsuario,$rfc,$idPerfil,$factura,$banco,$cuenta,$clabe);
         return $respuesta;
     }
 

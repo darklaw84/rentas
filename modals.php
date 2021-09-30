@@ -56,6 +56,8 @@ if ($verTodas) {
             <div class="modal-body">
 
                 <div class="card-body">
+
+                
                     <h5 class="card-title">Datos Aval</h5>
 
                     <div class="row mt-3">
@@ -139,7 +141,7 @@ if ($verTodas) {
 
             </div>
             <div class="modal-footer">
-                <a href="#" id="actualizarContrato" class="btn btn-primary pull-right">Actualizar</a>
+                <a href="javascript:void();" id="actualizarContrato" class="btn btn-primary pull-right">Actualizar</a>
             </div>
         </div>
     </div>
@@ -222,6 +224,26 @@ if ($verTodas) {
                             </div>
                         </div>
                     </div>
+                    <div class="row mt-3">
+                            <div class="col-md-4">
+                                <label for="correo">Banco</label>
+                                <div>
+                                    <input type="text" maxlength="100" class="form-control" id="bancoM" name="banco" placeholder="Opcional" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="correo">Cuenta</label>
+                                <div>
+                                    <input type="text" maxlength="100" class="form-control" id="cuentaM" name="cuenta" placeholder="Opcional" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="correo">Clabe</label>
+                                <div>
+                                    <input type="text" maxlength="100" class="form-control" id="clabeM" name="clabe" placeholder="Opcional" />
+                                </div>
+                            </div>
+                        </div>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="rfcAdmin">Requiere Factura</label>
@@ -241,7 +263,7 @@ if ($verTodas) {
 
             </div>
             <div class="modal-footer">
-                <a href="#" id="guardarAdmin" class="btn btn-primary pull-right">Actualizar</a>
+                <a href="javascript:void();" id="guardarAdmin" class="btn btn-primary pull-right">Actualizar</a>
             </div>
         </div>
     </div>
@@ -299,13 +321,13 @@ if ($verTodas) {
                         <div class="col-md-4">
                             <label for="cargo">Superficie m2</label>
                             <div>
-                                <input type="number" required class="form-control" id="superficiePro" name="superficiePro" placeholder="Superficie" />
+                                <input type="number"  class="form-control" id="superficiePro" name="superficiePro" placeholder="Superficie" />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label for="cargo">Construcción m2</label>
                             <div>
-                                <input type="number" required class="form-control" id="construccionPro" name="construccionPro" placeholder="Construccion" />
+                                <input type="number"  class="form-control" id="construccionPro" name="construccionPro" placeholder="Construccion" />
                             </div>
                         </div>
                     </div>
@@ -361,7 +383,7 @@ if ($verTodas) {
 
             </div>
             <div class="modal-footer">
-                <a href="#" id="guardarPropiedad" class="btn btn-primary pull-right">Actualizar</a>
+                <a href="javascript:void();" id="guardarPropiedad" class="btn btn-primary pull-right">Actualizar</a>
             </div>
         </div>
     </div>
@@ -415,7 +437,7 @@ if ($verTodas) {
 
             </div>
             <div class="modal-footer">
-                <a href="#" id="recibirRentaContrato" class="btn btn-primary pull-right">Recibir</a>
+                <a href="javascript:void();" id="recibirRentaContrato" class="btn btn-primary pull-right">Recibir</a>
             </div>
         </div>
     </div>
@@ -467,7 +489,7 @@ if ($verTodas) {
 
             </div>
             <div class="modal-footer">
-                <a href="#" id="recibirRentaContratoRentas" class="btn btn-primary pull-right">Recibir</a>
+                <a href="javascript:void();" id="recibirRentaContratoRentas" class="btn btn-primary pull-right">Recibir</a>
             </div>
         </div>
     </div>
@@ -498,7 +520,7 @@ if ($verTodas) {
 
             </div>
             <div class="modal-footer">
-                <a href="#" id="cancelarRentaContrato" class="btn btn-primary pull-right">Cancelar</a>
+                <a href="javascript:void();" id="cancelarRentaContrato" class="btn btn-primary pull-right">Cancelar</a>
             </div>
         </div>
     </div>
@@ -566,7 +588,7 @@ if ($verTodas) {
 
             </div>
             <div class="modal-footer">
-                <a href="#" id="guardarPago" class="btn btn-primary pull-right">Agregar Pago</a>
+                <a href="javascript:void();" id="guardarPago" class="btn btn-primary pull-right">Agregar Pago</a>
             </div>
         </div>
     </div>
@@ -634,7 +656,7 @@ if ($verTodas) {
 
             </div>
             <div class="modal-footer">
-                <a href="#" id="guardarPagoPagos" class="btn btn-primary pull-right">Agregar Pago</a>
+                <a href="javascript:void();" id="guardarPagoPagos" class="btn btn-primary pull-right">Agregar Pago</a>
             </div>
         </div>
     </div>
@@ -722,12 +744,7 @@ if ($verTodas) {
                     </div>
 
                     <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="nombre">Usuario</label>
-                            <div>
-                                <input type="text" required maxlength="50" class="form-control" id="usuarioInqui" name="usuarioInqui" placeholder="Usuario" />
-                            </div>
-                        </div>
+                       
                         <div class="col-md-6">
                             <label for="cargo">RFC</label>
                             <div>
@@ -782,7 +799,7 @@ if ($verTodas) {
 
             </div>
             <div class="modal-footer">
-                <a href="#" id="guardarInquilino" class="btn btn-primary pull-right">Agregar Inquilino</a>
+                <a href="javascript:void();" id="guardarInquilino" class="btn btn-primary pull-right">Agregar Inquilino</a>
             </div>
         </div>
     </div>
@@ -792,7 +809,7 @@ if ($verTodas) {
 
 
 <div id="modalAgregarArrendatario" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Agregar Arrendatario</h5>
@@ -852,12 +869,33 @@ if ($verTodas) {
                         </div>
                     </div>
 
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="correo">Banco</label>
+                            <div>
+                                <input type="text"  maxlength="100" class="form-control" id="banco" name="banco" placeholder="Opcional" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="correo">Cuenta</label>
+                            <div>
+                                <input type="text"  maxlength="100" class="form-control" id="cuenta" name="cuenta" placeholder="Opcional" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="correo">Clabe</label>
+                            <div>
+                                <input type="text"  maxlength="100" class="form-control" id="clabe" name="clabe" placeholder="Opcional" />
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
 
             </div>
             <div class="modal-footer">
-                <a href="#" id="guardarArrendatario" class="btn btn-primary pull-right">Agregar Arrendatario</a>
+                <a href="javascript:void();" id="guardarArrendatario" class="btn btn-primary pull-right">Agregar Arrendatario</a>
             </div>
         </div>
     </div>
@@ -887,7 +925,7 @@ if ($verTodas) {
 
             </div>
             <div class="modal-footer">
-                <a href="#" id="eliminarPagoContrato" class="btn btn-primary pull-right">Eliminar</a>
+                <a href="javascript:void();" id="eliminarPagoContrato" class="btn btn-primary pull-right">Eliminar</a>
             </div>
         </div>
     </div>
@@ -918,7 +956,7 @@ if ($verTodas) {
 
             </div>
             <div class="modal-footer">
-                <a href="#" id="eliminarPagoContratoPagos" class="btn btn-primary pull-right">Eliminar</a>
+                <a href="javascript:void();" id="eliminarPagoContratoPagos" class="btn btn-primary pull-right">Eliminar</a>
             </div>
         </div>
     </div>

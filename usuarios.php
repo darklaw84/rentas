@@ -68,6 +68,10 @@ if ($entro != "") {
     $rfc = $_POST['rfc'];
     $password = $_POST['password'];
     $idPerfil = $_POST['idPerfil'];
+
+    $banco = $_POST['banco'];
+    $cuenta = $_POST['cuenta'];
+    $clabe = $_POST['clabe'];
     //  $tipoPersona = $_POST['tipoPersona'];
     $tipoPersona = 1;
     if ($nombre == "") {
@@ -100,7 +104,7 @@ if ($entro != "") {
             $rfc,
             $idPerfil,
             $tipoPersona,
-            $factura
+            $factura,$banco,$cuenta,$clabe
         );
 
         if (!$respuesta->exito) {
@@ -113,6 +117,10 @@ if ($entro != "") {
             $telefono = "";
             $password = "";
             $usuario = "";
+
+            $banco ="";
+            $cuenta="";
+            $clabe="";
         }
     }
 } else {
@@ -162,7 +170,8 @@ $registros = $respuesta->registros;
                                 } ?> type="button" data-toggle="collapse" href="#collapseNuevoAdministrador" class="btn btn-primary">Nuevo Usuario</button>
 
 
-                    <?php } ?> </div>
+                    <?php } ?>
+                </div>
             </div>
         </div>
 
@@ -297,9 +306,29 @@ $registros = $respuesta->registros;
                                 </div>
                             </div>
                         </div>
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <label for="correo">Banco</label>
+                                <div>
+                                    <input type="text" maxlength="100" class="form-control" id="banco" name="banco" placeholder="Opcional" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="correo">Cuenta</label>
+                                <div>
+                                    <input type="text" maxlength="100" class="form-control" id="cuenta" name="cuenta" placeholder="Opcional" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="correo">Clabe</label>
+                                <div>
+                                    <input type="text" maxlength="100" class="form-control" id="clabe" name="clabe" placeholder="Opcional" />
+                                </div>
+                            </div>
+                        </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group mt-2">
                             <input type="hidden" name="entro" value="1" />
                             <button type="submit" class="btn btn-primary" name="signup" value="Sign up">Crear</button>
                         </div>
@@ -338,6 +367,13 @@ $registros = $respuesta->registros;
                                 <td><?php if ($editar) { ?><a href="#" class="btn btn-primary" data-role="updateUsuarios" data-id="<?php echo $reg['idUsuario'] ?>">Actualizar</a><?php } ?></td>
                                 <td>
                                     <input class="factura" type="hidden" value="<?php echo $reg['factura'] ?>">
+
+                                    <input class="banco" type="hidden" value="<?php echo $reg['banco'] ?>">
+                                    <input class="cuenta" type="hidden" value="<?php echo $reg['cuenta'] ?>">
+                                    <input class="clabe" type="hidden" value="<?php echo $reg['clabe'] ?>">
+
+
+                                    
                                     <input class="fisica" type="hidden" value="<?php echo $reg['fisica'] ?>">
                                     <input class="idPerfil" type="hidden" value="<?php echo $reg['idPerfil'] ?>"><?php if ($activar) { ?><a href="index.php?p=<?php echo $tipo; ?>&idUsuario=<?php echo $reg['idUsuario'] ?>&activo=<?php if ($reg['activo'] == 1) {
                                                                                                                                                                                                                                         echo "0";
@@ -347,7 +383,8 @@ $registros = $respuesta->registros;
                                                                                                                                                                                                                                                                         echo "Desactivar";
                                                                                                                                                                                                                                                                     } else {
                                                                                                                                                                                                                                                                         echo "Activar";
-                                                                                                                                                                                                                                                                    } ?></a><?php } ?></td>
+                                                                                                                                                                                                                                                                    } ?></a><?php } ?>
+                                </td>
 
 
                             </tr>

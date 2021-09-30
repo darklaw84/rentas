@@ -21,11 +21,14 @@ $respuesta = $controller->agregarUsuario(
   $apellidosInqui,
   $correoInqui,
   $telefonoInqui,
- md5( $usuarioInqui),
+  md5($usuarioInqui),
   $rfcInqui,
   6,
   $tipoPersona,
-  $requiereFactura
+  $requiereFactura,
+  "",
+  "",
+  ""
 );
 
 echo json_encode($respuesta);

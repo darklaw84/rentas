@@ -1,6 +1,7 @@
 <?php
 
 include_once 'RespuestaBD.php';
+include_once './utils/convertirnumeroletra.php';
 
 
 
@@ -350,6 +351,72 @@ class PropiedadesModel
 
 
 
+
+    function  obtenerContratosBase($activo, $idTipo)
+    {
+
+
+        $query = "SELECT *  FROM  contratosbase ";
+        $tieneWhere = false;
+        if ($activo) {
+            $query = $query . " where activo =1 ";
+            $tieneWhere = true;
+        }
+
+        if ($idTipo != "") {
+            if ($tieneWhere) {
+                $query = $query . " and idContratoBase = " . $idTipo;
+            } else {
+                $query = $query . " where idContratoBase = " . $idTipo;
+            }
+        }
+
+
+
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // execute query
+        $stmt->execute();
+        $num = $stmt->rowCount();
+        $respuesta = new RespuestaBD();
+
+        if ($num > 0) {
+
+            $arreglo = array();
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                // extract row
+                // this will make $row['name'] to
+                // just $name only
+                extract($row);
+
+
+                $registro_item = array(
+                    "idContratoBase" => $idContratoBase,
+                    "nombre" => $nombre,
+                    "base" => $base,
+                    "activo" => $activo
+
+                );
+
+                array_push($arreglo, $registro_item);
+            }
+            $respuesta->mensaje = "";
+            $respuesta->exito = true;
+            $respuesta->registros = $arreglo;
+        } else {
+            $respuesta->mensaje = "No se encontraron datos ";
+            $respuesta->exito = false;
+        }
+
+
+        return $respuesta;
+    }
+
+
+
     function obtenerPropiedad($idPropiedad)
     {
 
@@ -423,12 +490,10 @@ class PropiedadesModel
     {
 
 
-        $query = "SELECT uinq.fisica,c.domicilioInmueble,c.idContrato, c.fechaIni,c.fechaFin,c.renta,c.mantenimiento,c.diapago,c.aval,c.domicilioArrendador,c.numEscrituraArrendatario,
-        c.fechaEscrituraArrendatario,c.licenciadoArrendatario,c.notariaArrendatario,c.folioMercantilArrendatario,
-        c.domicilioArrendatario,c.rfcaval,c.domicilioAval,c.idPropiedad,c.tipoContrato,
+        $query = "SELECT c.*,uinq.fisica,
         uinq.nombre nomInq, uinq.apellidos apeInq, uinq.rfc rfcInq,uinq.representantelegal repInq,
         uprop.nombre nomProp, uprop.apellidos apeProp, uprop.rfc rfcProp,uprop.representantelegal repProp  ,
-        TIMESTAMPDIFF(MONTH, c.fechaIni, c.fechaFin) meses 
+        uprop.cuenta,uprop.banco,uprop.clabe
         FROM  contratos c  
         inner join usuarios uinq on uinq.idUsuario= c.idInquilino
         inner join usuarios uprop on uprop.idUsuario= c.idPropietario
@@ -462,21 +527,18 @@ class PropiedadesModel
                     "idPropiedad" => $idPropiedad,
                     "fechaFin" => $fechaFin,
                     "tipoContrato" => $tipoContrato,
+                    "personas" => $personas,
+                    "banco" => $banco,
+                    "cuenta" => $cuenta,
+                    "clabe" => $clabe,
+                    "deposito" => $deposito,
+                    "textoContrato" => $textoContrato,
                     "renta" => $renta,
-                    "mantenimiento" => $mantenimiento,
-                    "diapago" => $diapago,
                     "aval" => $aval,
                     "domicilioArrendador" => $domicilioArrendador,
-                    "numEscrituraArrendatario" => $numEscrituraArrendatario,
-                    "fechaEscrituraArrendatario" => $fechaEscrituraArrendatario,
-                    "licenciadoArrendatario" => $licenciadoArrendatario,
-                    "notariaArrendatario" => $notariaArrendatario,
-                    "folioMercantilArrendatario" => $folioMercantilArrendatario,
                     "domicilioArrendatario" => $domicilioArrendatario,
-                    "rfcaval" => $rfcaval,
                     "domicilioAval" => $domicilioAval,
                     "nomInq" => $nomInq,
-                    "meses" => $meses,
                     "apeInq" => $apeInq,
                     "rfcInq" => $rfcInq,
                     "repInq" => $repInq,
@@ -546,6 +608,7 @@ class PropiedadesModel
                     "fechaFin" => $fechaFin,
                     "renta" => $renta,
                     "archivo" => $archivo,
+
                     "estatus" => $estatus
 
 
@@ -1137,7 +1200,7 @@ class PropiedadesModel
         $stmt->bindParam(":propietario", $propietario);
         $stmt->bindParam(":fotografia", $fotografia);
         $stmt->bindParam(":predial", $predial);
-        
+
 
 
 
@@ -1184,29 +1247,34 @@ class PropiedadesModel
 
 
     function agregarContrato(
-        $idPropietario,
-        $idPropiedad,
-        $fechaIni,
-        $fechaFin,
-        $idInquilino,
-        $renta,
-        $mantenimiento,
-        $diaPago,
-        $aval,
+        $idArrendador,
         $domicilioArrendador,
-        $numEscrituraArrendatario,
-        $fechaEscrituraArrendatario,
-        $licenciadoArrendatario,
-        $notariaArrendatario,
-        $folioMercantilArrendatario,
-        $domicilioArrendatario,
-        $rfcaval,
-        $domicilioInmueble,
+        $fechaFin,
+        $fechaIni,
+        $diaPago,
+        $renta,
+        $interesmoratorio,
+        $incrementoanual,
+        $deposito,
+        $usolocalidad,
+        $idInquilino,
+        $dominquilino,
+        $nombreaval,
+        $domicilioaval,
+        $domicilioInmuebleAval,
         $tipoContrato,
-        $domicilioAval
+        $personas,
+        $idPropiedad
     ) {
 
         $respuesta = new RespuestaBD();
+
+
+        $textoContrato = $this->obtenerContratosBase(true, $tipoContrato)->registros[0]['base'];
+
+
+
+
 
 
         $this->ponerNoVigenteContratos($idPropiedad);
@@ -1226,20 +1294,18 @@ class PropiedadesModel
                 tipoContrato=:tipoContrato,
                 estatus = 1,
                 fechaCreacion=now(),
-                
-                mantenimiento=:mantenimiento,
                 diaPago=:diaPago,
                 aval=:aval,
+                usolocalidad=:usolocalidad,
                 domicilioInmueble=:domicilioInmueble,
                 domicilioArrendador=:domicilioArrendador,
-                numEscrituraArrendatario=:numEscrituraArrendatario,
-                fechaEscrituraArrendatario=:fechaEscrituraArrendatario,
-                licenciadoArrendatario=:licenciadoArrendatario,
-                notariaArrendatario=:notariaArrendatario,
-                folioMercantilArrendatario=:folioMercantilArrendatario,
                 domicilioArrendatario=:domicilioArrendatario,
-                rfcaval=:rfcaval,
-                domicilioAval=:domicilioAval";
+                personas=:personas,
+                interesmoratorio=:interesmoratorio,
+                incrementoanual=:incrementoanual,
+                deposito=:deposito,
+                domicilioAval=:domicilioAval
+                ";
 
         // prepare query
         $stmt = $this->conn->prepare($query);
@@ -1247,39 +1313,24 @@ class PropiedadesModel
 
         // bind values
 
-        $stmt->bindParam(":domicilioInmueble", $domicilioInmueble);
-        $stmt->bindParam(":aval", $aval);
+        $stmt->bindParam(":domicilioInmueble", $domicilioInmuebleAval);
+        $stmt->bindParam(":aval", $nombreaval);
         $stmt->bindParam(":domicilioArrendador", $domicilioArrendador);
-        $stmt->bindParam(":numEscrituraArrendatario", $numEscrituraArrendatario);
-        if ($fechaEscrituraArrendatario == "") {
-            $stmt->bindParam(":fechaEscrituraArrendatario", date('Y-m-d'));
-        } else {
-            $stmt->bindParam(":fechaEscrituraArrendatario", $fechaEscrituraArrendatario);
-        }
-        $stmt->bindParam(":licenciadoArrendatario", $licenciadoArrendatario);
-        $stmt->bindParam(":notariaArrendatario", $notariaArrendatario);
-        $stmt->bindParam(":folioMercantilArrendatario", $folioMercantilArrendatario);
-        $stmt->bindParam(":domicilioArrendatario", $domicilioArrendatario);
-        $stmt->bindParam(":rfcaval", $rfcaval);
-        $stmt->bindParam(":domicilioAval", $domicilioAval);
-
-
-        $stmt->bindParam(":idPropietario", $idPropietario);
+        $stmt->bindParam(":domicilioArrendatario", $dominquilino);
+        $stmt->bindParam(":domicilioAval", $domicilioaval);
+        $stmt->bindParam(":idPropietario", $idArrendador);
         $stmt->bindParam(":idPropiedad", $idPropiedad);
         $stmt->bindParam(":idInquilino", $idInquilino);
         $stmt->bindParam(":fechaIni", $fechaIni);
         $stmt->bindParam(":fechaFin", $fechaFin);
         $stmt->bindParam(":renta", $renta);
-        $stmt->bindParam(":mantenimiento", $mantenimiento);
+        $stmt->bindParam(":usolocalidad", $usolocalidad);
         $stmt->bindParam(":diaPago", $diaPago);
         $stmt->bindParam(":tipoContrato", $tipoContrato);
-
-
-
-
-
-
-
+        $stmt->bindParam(":personas", $personas);
+        $stmt->bindParam(":interesmoratorio", $interesmoratorio);
+        $stmt->bindParam(":incrementoanual", $incrementoanual);
+        $stmt->bindParam(":deposito", $deposito);
 
         // execute query
         if ($stmt->execute()) {
@@ -1287,7 +1338,26 @@ class PropiedadesModel
             $respuesta->exito = true;
             $respuesta->mensaje = "";
             $respuesta->valor = $idInsertado;
-            $this->agregarRentasContrato($idInsertado, $fechaIni, $fechaFin, $renta, $mantenimiento, $diaPago);
+            $this->agregarRentasContrato($idInsertado, $fechaIni, $fechaFin, $renta, 0, $diaPago);
+
+            $textoContrato = $this->actualizarDatosContrato(
+                $textoContrato,
+                $idArrendador,
+                $domicilioArrendador,
+                $diaPago,
+                $renta,
+                $interesmoratorio,
+                $incrementoanual,
+                $deposito,
+                $usolocalidad,
+                $idInquilino,
+                $nombreaval,
+                $domicilioaval,
+                $domicilioInmuebleAval,
+                $personas,
+                $idPropiedad,
+                $idInsertado
+            );
 
             return $respuesta;
         } else {
@@ -1297,6 +1367,180 @@ class PropiedadesModel
             return $respuesta;
         }
     }
+
+
+    function actualizarDatosContrato(
+        $textoContrato,
+        $idArrendador,
+        $domicilioArrendador,
+        $diaPago,
+        $renta,
+        $interesmoratorio,
+        $incrementoanual,
+        $deposito,
+        $usolocalidad,
+        $idInquilino,
+        $nombreaval,
+        $domicilioaval,
+        $domicilioInmuebleAval,
+        $personas,
+        $idPropiedad,
+        $idContrato
+
+    ) {
+        $letras = new CifrasEnLetras();
+        $rentaS = $letras->convertirPesosEnLetras($renta, 2);
+        $depositoS = $letras->convertirPesosEnLetras($deposito, 2);
+        $propiedad = $this->obtenerPropiedad($idPropiedad)->registros[0];
+        $arrendador = $this->obtenerArrendador($idArrendador)->registros[0];
+        $inquilino = $this->obtenerArrendador($idInquilino)->registros[0];
+        $meses = $this->obtenerMeses($idContrato);
+
+        $fechaContrato = " " . date('d') . " de " . $this->obtenerMes(date('m')) . " del " . date('Y');
+
+
+        $textoContrato = str_replace("[domiciliopropiedad]", $propiedad['direccion'], $textoContrato);
+        $textoContrato = str_replace("[arrendador]", $arrendador['nombre'] . " " . $arrendador['apellidos'], $textoContrato);
+        $textoContrato = str_replace("[arrendatario]", $inquilino['nombre'] . " " . $inquilino['apellidos'], $textoContrato);
+        $textoContrato = str_replace("[aval]", $nombreaval, $textoContrato);
+        $textoContrato = str_replace("[domicilioarrendador]", $domicilioArrendador, $textoContrato);
+        $textoContrato = str_replace("[cuentaarrendador]", $arrendador['cuenta'], $textoContrato);
+        $textoContrato = str_replace("[bancoarrendador]", $arrendador['banco'], $textoContrato);
+        $textoContrato = str_replace("[correoarrendador]", $arrendador['correo'], $textoContrato);
+        $textoContrato = str_replace("[incrementoanual]", $incrementoanual . " %", $textoContrato);
+        $textoContrato = str_replace("[diapago]", $diaPago, $textoContrato);
+        $textoContrato = str_replace("[interesmoratorio]", $interesmoratorio . " %", $textoContrato);
+        $textoContrato = str_replace("[usolocalidad]", $usolocalidad, $textoContrato);
+        $textoContrato = str_replace("[domicilioinmuebleaval]", $domicilioInmuebleAval, $textoContrato);
+        $textoContrato = str_replace("[domicilioaval]", $domicilioaval, $textoContrato);
+        $textoContrato = str_replace("[deposito]", $depositoS, $textoContrato);
+        $textoContrato = str_replace("[fechaContrato]", $fechaContrato, $textoContrato);
+        $textoContrato = str_replace("[renta]", $rentaS, $textoContrato);
+        $textoContrato = str_replace("[meses]", $meses, $textoContrato);
+        $textoContrato = str_replace("[personas]", $personas, $textoContrato);
+        $textoContrato = str_replace("
+", "", $textoContrato);
+
+        $query = "UPDATE contratos SET textoContrato = '" . $textoContrato . "' where idContrato=" . $idContrato;
+
+        $stmt = $this->conn->prepare($query);
+
+
+
+        if ($stmt->execute()) {
+        } else {
+            $mensaje = $stmt->errorInfo();
+            $hola = "";
+        }
+    }
+
+
+    function obtenerMes($mes)
+    {
+        if ($mes == 1) {
+            $mesS = "Enero";
+        } else if ($mes == 2) {
+            $mesS = "Febrero";
+        } else if ($mes == 3) {
+            $mesS = "Marzo";
+        } else if ($mes == 4) {
+            $mesS = "Abril";
+        } else if ($mes == 5) {
+            $mesS = "Mayo";
+        } else if ($mes == 6) {
+            $mesS = "Junio";
+        } else if ($mes == 7) {
+            $mesS = "Julio";
+        } else if ($mes == 8) {
+            $mesS = "Agosto";
+        } else if ($mes == 9) {
+            $mesS = "Septiembre";
+        } else if ($mes == 10) {
+            $mesS = "Octubre";
+        } else if ($mes == 11) {
+            $mesS = "Novimebre";
+        } else if ($mes == 12) {
+            $mesS = "Diciembre";
+        }
+
+        return $mesS;
+    }
+
+    function obtenerMeses($idContrato)
+    {
+
+
+        $query = "SELECT TIMESTAMPDIFF(MONTH, c.fechaIni, c.fechaFin) meses  FROM  contratos c where idContrato =" . $idContrato;
+
+        $cantMeses = 0;
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // execute query
+        $stmt->execute();
+
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            extract($row);
+
+            $cantMeses = $meses;
+        }
+
+
+
+        return $cantMeses;
+    }
+
+    function obtenerArrendador($idArrendador)
+    {
+        $query = "SELECT *  FROM  usuarios where idUsuario =" . $idArrendador;
+
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // execute query
+        $stmt->execute();
+        $num = $stmt->rowCount();
+        $respuesta = new RespuestaBD();
+
+        if ($num > 0) {
+
+            $arreglo = array();
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+                extract($row);
+
+
+                $registro_item = array(
+                    "apellidos" => $apellidos,
+                    "nombre" => $nombre,
+                    "banco" => $banco,
+                    "cuenta" => $cuenta,
+                    "clabe" => $clabe,
+                    "correo" => $correo,
+
+                );
+
+                array_push($arreglo, $registro_item);
+            }
+            $respuesta->mensaje = "";
+            $respuesta->exito = true;
+            $respuesta->registros = $arreglo;
+        } else {
+            $respuesta->mensaje = "No se encontraron datos ";
+            $respuesta->exito = false;
+        }
+
+
+        return $respuesta;
+    }
+
+
+
 
 
 
@@ -1604,6 +1848,27 @@ class PropiedadesModel
     }
 
 
+    function actualizarTextoContrato($idContrato, $texto)
+    {
+
+        $respuesta = new RespuestaBD();
+        $query = "update contratos set textoContrato ='" . $texto . "' 
+        where idContrato= " . $idContrato;
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+
+        if ($stmt->execute()) {
+
+            $respuesta->exito = true;
+            $respuesta->mensaje = "";
+            $respuesta->valor = "";
+
+
+            return $respuesta;
+        }
+    }
+
+
     function subirFotoPropiedad($idPropiedad, $fotografia)
     {
 
@@ -1780,7 +2045,7 @@ class PropiedadesModel
         $stmt->bindParam(":predial", $predial);
         $stmt->bindParam(":amueblada", $amueblada);
 
-        
+
 
 
 

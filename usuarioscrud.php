@@ -16,9 +16,17 @@ if ($idAdmin != "" && $tipo=="update") {
     $apellidosAdmin = $_POST['apellidosAdmin'] ;
     $factura = $_POST['factura'] ;
     $idPerfil = $_POST['idPerfil'] ;
+
+    $banco = $_POST['banco'] ;
+    $cuenta = $_POST['cuenta'] ;
+    $clabe = $_POST['clabe'] ;
+
+
+
+
     
     $respuesta = $controller->actualizarUsuario($nombreAdmin, $apellidosAdmin,$correoAdmin,
-    $telefonoAdmin, $idAdmin,$rfcAdmin,$idPerfil,$factura);
+    $telefonoAdmin, $idAdmin,$rfcAdmin,$idPerfil,$factura,$banco,$cuenta,$clabe);
     if ($respuesta->exito) {
       echo '{"exito":true}';
     }

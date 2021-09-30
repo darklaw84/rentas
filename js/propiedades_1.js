@@ -74,6 +74,10 @@ $(document).ready(function () {
 
         $('#telefonoArre').val('');
 
+        $('#banco').val('');
+        $('#cuenta').val('');
+        $('#clabe').val('');
+
         $('#modalAgregarArrendatario').modal('toggle');
     });
 
@@ -99,7 +103,7 @@ $(document).ready(function () {
 
     $('#guardarInquilino').click(function () {
 
-        var usuarioInqui = $('#usuarioInqui').val();
+        var usuarioInqui = 'generico';
         var nombreInqui = $('#nombreInqui').val();
         var razonInqui = $('#razonInqui').val();
         var apellidosInqui = $('#apellidosInqui').val();
@@ -174,6 +178,10 @@ $(document).ready(function () {
 
         var telefonoInqui = $('#telefonoArre').val();
 
+        var banco = $('#banco').val();
+        var cuenta = $('#cuenta').val();
+        var clabe = $('#clabe').val();
+
        
 
 
@@ -193,6 +201,9 @@ $(document).ready(function () {
                     correoInqui: correoInqui,
                     apellidosInqui: apellidosInqui,
                     rfcInqui: rfcInqui,
+                    banco: banco,
+                    cuenta: cuenta,
+                    clabe: clabe,
                     telefonoInqui: telefonoInqui
                 },
                 success: function (data) {
@@ -256,7 +267,7 @@ $(document).ready(function () {
 
 
         if (nombrePro === "" || descripcionPro === "" || direccionPro === "" || rentaPro === ""
-            || superficie === "" || comprende === "" || numescritura === "" || fechaEscritura === ""
+             || numescritura === "" || fechaEscritura === ""
             || numNotaria === "" || folioMercantil === "" || licEscritura === "") {
             $('#modalMensajeError').find('.modal-body').text('Los campos son obligatorios').end().modal('show');
         } else {
@@ -573,7 +584,12 @@ $(document).ready(function () {
 
     });
 
+    $('#btnVer').click(function () {
 
+        var text = $('#tiny').val();
+
+        alert (text);
+    });
 
 
     $('#guardarPagoPagos').click(function () {
